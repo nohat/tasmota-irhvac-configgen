@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MQTT Web Interface</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet">
+    <!-- Include MQTT.js from CDN -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>MQTT Web Interface</h1>
+        
+        <div class="connection-section">
+            <h2>Connect to MQTT Broker</h2>
+            <label for="broker">Broker Address:</label>
+            <input type="text" id="broker" placeholder="e.g., 192.168.1.100">
+            
+            <label for="port">Port:</label>
+            <input type="number" id="port" value="9001">
+            
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="MQTT Username">
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="MQTT Password">
+            
+            <button id="connectBtn">Connect</button>
+            <span id="status">Disconnected</span>
+        </div>
+        
+        <div class="publish-section">
+            <h2>Publish Message</h2>
+            <label for="topic">Topic:</label>
+            <input type="text" id="topic" placeholder="e.g., home/sensor">
+            
+            <label for="message">Message:</label>
+            <input type="text" id="message" placeholder="Your message">
+            
+            <button id="publishBtn" disabled>Publish</button>
+        </div>
+        
+        <div class="subscribe-section">
+            <h2>Subscribe to Topic</h2>
+            <label for="subTopic">Topic:</label>
+            <input type="text" id="subTopic" placeholder="e.g., home/sensor">
+            
+            <button id="subscribeBtn" disabled>Subscribe</button>
+            <div id="messages"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
