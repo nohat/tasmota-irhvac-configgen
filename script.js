@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             reconnectPeriod: 1000,
         };
 
-        const wsUrl = `wss://${broker}:${port}/mqtt`;
+        const wsUrl = `wss://${broker}:${port}`;
 
         client = mqtt.connect(wsUrl, options);
 
