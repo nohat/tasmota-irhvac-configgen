@@ -9,7 +9,7 @@
         <!-- Water.css - Light theme -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
         <!-- Custom styles for specific adjustments -->
-        <link href="style.css?v={{ site.time | date: '%Y%m%d%H%M%S' }}" rel="stylesheet">
+        <link href="src/css/style.css?v={{ site.time | date: '%Y%m%d%H%M%S' }}" rel="stylesheet">
         <!-- Include MQTT.js from CDN -->
         <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     </head>
@@ -275,6 +275,6 @@
                 <div id="discoveryEditor"></div>
             </section>
         </div>
-        <script src="script.js?v={{ site.time | date: '%Y%m%d%H%M%S' }}" type="module"></script>
+        <script src="src/js/script.js?v={{ site.time | date: '%Y%m%d%H%M%S' }}" type="module"></script>
     </body>
 </html>
