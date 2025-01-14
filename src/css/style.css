@@ -17,7 +17,7 @@
     }
 }
 
-#messages {
+.messages {
     background: var(--background-alt);
     padding: 1rem;
     border-radius: 4px;
@@ -31,7 +31,7 @@
     margin: 1rem 0;
 }
 
-#discoveryEditor {
+.discovery-editor {
     height: 200px;
     width: 100%;
     border: 1px solid var(--border);
@@ -67,60 +67,59 @@
     margin-top: 1rem;
 }
 
-#status {
+.connection-status {
     margin-left: 1rem;
     font-weight: bold;
 }
 
-#status:empty {
+.connection-status:empty {
     display: none;
 }
 
-/* Style adjustments for the primary button */
-button.primary {
+/* Style adjustments for buttons */
+.button-primary {
     background: var(--button-base);
     border: 1px solid var(--button-base);
     color: var(--text-bright);
 }
 
-/* Disabled button styles */
-button:disabled {
+[disabled] {
     opacity: 0.6;
     cursor: not-allowed;
 }
 
 /* Styles for collapsible sections */
-details {
+.collapsible {
     background: var(--background-alt);
     border-radius: 4px;
     padding: 0.5rem 1rem;
     margin: 1rem 0;
 }
 
-details > summary {
+.collapsible > summary {
     cursor: pointer;
     padding: 0.5rem 0;
     font-weight: bold;
 }
 
-details > summary::marker,
-details > summary::-webkit-details-marker {
+.collapsible > summary::marker,
+.collapsible > summary::-webkit-details-marker {
     color: var(--text-main);
 }
 
-details[open] > summary {
+.collapsible[open] > summary {
     margin-bottom: 1rem;
     border-bottom: 1px solid var(--border);
 }
 
 /* Form input styles */
-#deviceConfigForm input[type="text"],
-#deviceConfigForm input[type="url"] {
+.device-config-form .text-input,
+.device-config-form .url-input {
     width: 100%;
     box-sizing: border-box;
 }
 
-#deviceConfigForm small {
+.device-config-form .help-text {
     display: block;
     margin-top: 0.25rem;
 }
@@ -132,7 +131,7 @@ details[open] > summary {
     margin-top: 0.5rem;
 }
 
-.checkbox-group label {
+.checkbox-group .option {
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -142,10 +141,10 @@ details[open] > summary {
     cursor: pointer;
 }
 
-.checkbox-group label:hover {
+.checkbox-group .option:hover {
     background: var(--accent-bg);
 }
 
-.checkbox-group input[type="checkbox"] {
+.checkbox-group .checkbox {
     margin: 0;
 }
