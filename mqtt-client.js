@@ -7,10 +7,9 @@ export class MQTTClient {
         this.messagesDiv = document.getElementById('messages');
     }
 
-    connect(broker, port, username, password) {
+    async connect(broker, port, username, password) {
         if (!broker || !port) {
-            alert('Please enter both broker address and port.');
-            return;
+            throw new Error('Please enter both broker address and port.');
         }
 
         const options = {
@@ -24,40 +23,45 @@ export class MQTTClient {
         };
 
         const wsUrl = `wss://${broker}:${port}`;
-        this.client = mqtt.connect(wsUrl, options);
+        
+        return new Promise((resolve, reject) => {
+            this.client = mqtt.connect(wsUrl, options);
 
-        this.client.on('connect', () => {
-            this.statusSpan.textContent = 'Connected';
-            this.statusSpan.style.color = 'green';
-            this.publishBtn.disabled = false;
-            this.subscribeBtn.disabled = false;
-            console.log('Connected to MQTT broker');
-        });
+            this.client.once('connect', () => {
+                this.statusSpan.textContent = 'Connected';
+                this.statusSpan.style.color = 'green';
+                this.publishBtn.disabled = false;
+                this.subscribeBtn.disabled = false;
+                console.log('Connected to MQTT broker');
+                resolve();
+            });
 
-        this.client.on('error', (err) => {
-            console.error('Connection error: ', err);
-            this.statusSpan.textContent = 'Connection Error';
-            this.statusSpan.style.color = 'red';
-            this.client.end();
-        });
+            this.client.once('error', (err) => {
+                console.error('Connection error: ', err);
+                this.statusSpan.textContent = 'Connection Error';
+                this.statusSpan.style.color = 'red';
+                this.client.end();
+                reject(err);
+            });
 
-        this.client.on('reconnect', () => {
-            this.statusSpan.textContent = 'Reconnecting...';
-            this.statusSpan.style.color = 'orange';
-        });
+            // Set up ongoing event handlers
+            this.client.on('reconnect', () => {
+                this.statusSpan.textContent = 'Reconnecting...';
+                this.statusSpan.style.color = 'orange';
+            });
 
-        this.client.on('message', (topic, message) => {
-            const msg = document.createElement('p');
-            msg.textContent = `[${topic}] ${message.toString()}`;
-            this.messagesDiv.appendChild(msg);
-            this.messagesDiv.scrollTop = this.messagesDiv.scrollHeight;
+            this.client.on('message', (topic, message) => {
+                const msg = document.createElement('p');
+                msg.textContent = `[${topic}] ${message.toString()}`;
+                this.messagesDiv.appendChild(msg);
+                this.messagesDiv.scrollTop = this.messagesDiv.scrollHeight;
+            });
         });
     }
 
-    publish(topic, message, options = { qos: 1 }) {
+    async publish(topic, message, options = { qos: 1 }) {
         if (!this.client || !this.client.connected) {
-            alert('Not connected to MQTT broker.');
-            return;
+            throw new Error('Not connected to MQTT broker.');
         }
 
         return new Promise((resolve, reject) => {
@@ -72,10 +76,9 @@ export class MQTTClient {
         });
     }
 
-    subscribe(topic) {
+    async subscribe(topic) {
         if (!this.client || !this.client.connected) {
-            alert('Not connected to MQTT broker.');
-            return;
+            throw new Error('Not connected to MQTT broker.');
         }
 
         return new Promise((resolve, reject) => {

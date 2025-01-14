@@ -1,15 +1,33 @@
-export function initializeEditor() {
-    const editor = ace.edit("discoveryEditor");
-    editor.setTheme("ace/theme/monokai");
-    editor.session.setMode("ace/mode/json");
-    editor.setValue("{\n\t\"example\": \"This is a JSON example\"\n}", -1);
-    editor.setOptions({
-        maxLines: Infinity,
-        minLines: 10,
-        autoScrollEditorIntoView: true,
-        useWorker: false
+async function loadAceEditor() {
+    if (window.ace) return;
+    
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js';
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
     });
-    return editor;
+}
+
+export async function initializeEditor() {
+    try {
+        await loadAceEditor();
+        const editor = ace.edit("discoveryEditor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/json");
+        editor.setValue("{\n\t\"example\": \"This is a JSON example\"\n}", -1);
+        editor.setOptions({
+            maxLines: Infinity,
+            minLines: 10,
+            autoScrollEditorIntoView: true,
+            useWorker: false
+        });
+        return editor;
+    } catch (err) {
+        console.error('Failed to initialize editor:', err);
+        throw err;
+    }
 }
 
 export function initializeCopyButton(editor) {

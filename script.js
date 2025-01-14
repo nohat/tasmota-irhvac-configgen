@@ -2,14 +2,19 @@ import { initializeEditor, initializeCopyButton } from './ui-components.js?v={{ 
 import { MQTTClient } from './mqtt-client.js?v={{ site.time | date: "%Y%m%d%H%M%S" }}';
 import { initializeFormHandlers } from './form-handler.js?v={{ site.time | date: "%Y%m%d%H%M%S" }}';
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize UI components
-    const editor = initializeEditor();
-    initializeCopyButton(editor);
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // Initialize UI components
+        const editor = await initializeEditor();
+        initializeCopyButton(editor);
 
-    // Initialize MQTT client
-    const mqttClient = new MQTTClient();
+        // Initialize MQTT client
+        const mqttClient = new MQTTClient();
 
-    // Initialize form handlers
-    initializeFormHandlers(editor, mqttClient);
+        // Initialize form handlers
+        initializeFormHandlers(editor, mqttClient);
+    } catch (err) {
+        console.error('Failed to initialize application:', err);
+        alert('Failed to initialize the editor. Please refresh the page and try again.');
+    }
 });
