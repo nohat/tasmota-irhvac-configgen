@@ -1,5 +1,68 @@
 import { generateDiscoveryPayload } from './discovery-payload-generator.js?v={{ site.time | date: "%Y%m%d%H%M%S" }}';
 
+function saveFormState() {
+    const formData = {
+        // Device Information
+        deviceId: document.getElementById('deviceId').value,
+        irhvacVendor: document.getElementById('irhvacVendor').value,
+        manufacturer: document.getElementById('manufacturer').value,
+        model: document.getElementById('model').value,
+        serialNumber: document.getElementById('serialNumber').value,
+        configUrl: document.getElementById('configUrl').value,
+        
+        // HA Configuration
+        entityId: document.getElementById('entityId').value,
+        suggestedArea: document.getElementById('suggestedArea').value,
+        
+        // Operational Settings
+        tempUnit: document.getElementById('tempUnit').value,
+        tempStep: document.getElementById('tempStep').value,
+        minTemp: document.getElementById('minTemp').value,
+        maxTemp: document.getElementById('maxTemp').value,
+        
+        // Modes
+        modes: Array.from(document.querySelectorAll('input[name="modes"]:checked')).map(input => input.value),
+        fanModes: Array.from(document.querySelectorAll('input[name="fanModes"]:checked')).map(input => input.value),
+        swingModes: Array.from(document.querySelectorAll('input[name="swingModes"]:checked')).map(input => input.value),
+        
+        // MQTT Settings
+        broker: document.getElementById('broker').value,
+        port: document.getElementById('port').value,
+        username: document.getElementById('username').value
+        // We don't save password for security reasons
+    };
+    
+    localStorage.setItem('formState', JSON.stringify(formData));
+}
+
+function restoreFormState() {
+    const savedState = localStorage.getItem('formState');
+    if (!savedState) return;
+    
+    try {
+        const formData = JSON.parse(savedState);
+        
+        // Restore text and number inputs
+        Object.entries(formData).forEach(([key, value]) => {
+            if (Array.isArray(value)) return; // Skip arrays (handled below)
+            const element = document.getElementById(key);
+            if (element) element.value = value;
+        });
+        
+        // Restore checkboxes
+        ['modes', 'fanModes', 'swingModes'].forEach(modeType => {
+            if (!formData[modeType]) return;
+            document.querySelectorAll(`input[name="${modeType}"]`).forEach(checkbox => {
+                checkbox.checked = formData[modeType].includes(checkbox.value);
+            });
+        });
+        
+    } catch (err) {
+        console.error('Failed to restore form state:', err);
+        localStorage.removeItem('formState'); // Clear invalid state
+    }
+}
+
 export function convertTemp(value, fromUnit, toUnit) {
     if (fromUnit === toUnit) return value;
     if (fromUnit === 'F' && toUnit === 'C') {
@@ -63,6 +126,9 @@ export function initializeFormHandlers(editor, mqttClient) {
             });
             editor.setValue(JSON.stringify(currentDiscoveryPayload, null, 2), -1);
             publishPayloadBtn.disabled = !mqttClient.isConnected();
+            
+            // Save form state after successful payload generation
+            saveFormState();
         } catch (err) {
             console.error('Failed to generate discovery payload:', err);
         }
@@ -71,9 +137,15 @@ export function initializeFormHandlers(editor, mqttClient) {
     // Add change listeners to all form inputs
     const formInputs = document.querySelectorAll('input, select');
     formInputs.forEach(input => {
-        input.addEventListener('change', updateDiscoveryPayload);
+        input.addEventListener('change', () => {
+            updateDiscoveryPayload();
+            saveFormState();
+        });
         if (input.type === 'text' || input.type === 'number') {
-            input.addEventListener('input', updateDiscoveryPayload);
+            input.addEventListener('input', () => {
+                updateDiscoveryPayload();
+                saveFormState();
+            });
         }
     });
 
@@ -174,6 +246,8 @@ export function initializeFormHandlers(editor, mqttClient) {
         }
     });
 
-    // Generate initial payload
+    // Restore form state on initialization
+    restoreFormState();
+    // Generate initial payload after state restoration
     updateDiscoveryPayload();
 } 
