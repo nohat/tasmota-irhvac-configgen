@@ -2,57 +2,283 @@
 ---
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>MQTT Web Interface</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="style.css" rel="stylesheet">
-    <!-- Include MQTT.js from CDN -->
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-</head>
-<body>
-    <div class="container">
-        <h1>MQTT Web Interface</h1>
-        
-        <div class="connection-section">
-            <h2>Connect to MQTT Broker</h2>
-            <label for="broker">Broker Address:</label>
-            <input type="text" id="broker" value="homeassistant.local">
-            
-            <label for="port">Port:</label>
-            <input type="number" id="port" value="8883">
-            
-            <label for="username">Username:</label>
-            <input type="text" id="username" value="mqtt_user">
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="MQTT Password">
-            
-            <button id="connectBtn">Connect</button>
-            <span id="status">Disconnected</span>
+    <head>
+        <meta charset="UTF-8">
+        <title>MQTT Web Interface</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Water.css - Light theme -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+        <!-- Custom styles for specific adjustments -->
+        <link href="style.css" rel="stylesheet">
+        <!-- Include MQTT.js from CDN -->
+        <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+        <!-- Include Ace Editor from CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>MQTT Web Interface</h1>
+
+            <details>
+                <summary>MQTT Connection Settings</summary>
+                <section class="connection-section">
+                    <h2>Connect to MQTT Broker</h2>
+                    <div class="grid">
+                        <div>
+                            <label for="broker">Broker Address</label>
+                            <input type="text" id="broker" value="homeassistant.local">
+                        </div>
+                        <div>
+                            <label for="port">Port</label>
+                            <input type="number" id="port" value="8883">
+                        </div>
+                    </div>
+
+                    <div class="grid">
+                        <div>
+                            <label for="username">Username</label>
+                            <input type="text" id="username" value="mqtt_user">
+                        </div>
+                        <div>
+                            <label for="password">Password</label>
+                            <input type="password" id="password" placeholder="MQTT Password">
+                        </div>
+                    </div>
+
+                    <button id="connectBtn">Connect</button>
+                    <span id="status">Disconnected</span>
+                </section>
+
+                <section class="publish-section">
+                    <h2>Publish Message</h2>
+                    <label for="topic">Topic</label>
+                    <input type="text" id="topic" placeholder="e.g., home/sensor">
+
+                    <label for="message">Message</label>
+                    <input type="text" id="message" placeholder="Your message">
+
+                    <button id="publishBtn" disabled>Publish</button>
+                </section>
+
+                <section class="subscribe-section">
+                    <h2>Subscribe to Topic</h2>
+                    <label for="subTopic">Topic</label>
+                    <input type="text" id="subTopic" placeholder="e.g., home/sensor">
+
+                    <button id="subscribeBtn" disabled>Subscribe</button>
+                    <div id="messages" role="log" aria-live="polite"></div>
+                </section>
+            </details>
+
+            <section class="discovery-section">
+                <h2>Home Assistant Discovery</h2>
+                <form id="deviceConfigForm">
+                    <fieldset>
+                        <legend>Device Information</legend>
+                        
+                        <div class="grid">
+                            <div>
+                                <label for="deviceId">Tasmota Device ID</label>
+                                <input type="text" 
+                                    id="deviceId" 
+                                    name="deviceId"
+                                    pattern="[a-zA-Z0-9_-]+"
+                                    value="tasmota_D971D7"
+                                    aria-describedby="deviceIdHelp"
+                                    required>
+                                <small id="deviceIdHelp">Tasmota device identifier (e.g., tasmota_D971D7)</small>
+                            </div>
+
+                            <div>
+                                <label for="irhvacVendor">IRHVAC Vendor</label>
+                                <input type="text" 
+                                    id="irhvacVendor" 
+                                    name="irhvacVendor"
+                                    value="MITSUBISHI_AC"
+                                    aria-describedby="irhvacVendorHelp"
+                                    required>
+                                <small id="irhvacVendorHelp">Vendor name from Tasmota IRHVAC message (e.g., MITSUBISHI_AC)</small>
+                            </div>
+                        </div>
+
+                        <div class="grid">
+                            <div>
+                                <label for="manufacturer">Manufacturer</label>
+                                <input type="text" 
+                                    id="manufacturer" 
+                                    name="manufacturer"
+                                    value="Mitsubishi Electric"
+                                    required>
+                            </div>
+
+                            <div>
+                                <label for="model">Model</label>
+                                <input type="text" 
+                                    id="model" 
+                                    name="model"
+                                    value="MSZ-GS12NA"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="grid">
+                            <div>
+                                <label for="serialNumber">Serial Number</label>
+                                <input type="text" 
+                                    id="serialNumber" 
+                                    name="serialNumber"
+                                    pattern="[A-Z0-9]+"
+                                    value="D971D7"
+                                    aria-describedby="serialHelp"
+                                    required>
+                                <small id="serialHelp">Device serial number (uppercase letters and numbers only)</small>
+                            </div>
+
+                            <div>
+                                <label for="configUrl">Configuration URL</label>
+                                <input type="url" 
+                                    id="configUrl" 
+                                    name="configUrl"
+                                    value="http://192.168.1.100/"
+                                    aria-describedby="urlHelp"
+                                    required>
+                                <small id="urlHelp">Web interface URL for the device</small>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Home Assistant Configuration</legend>
+                        
+                        <div class="grid">
+                            <div>
+                                <label for="entityId">Entity ID</label>
+                                <input type="text" 
+                                    id="entityId" 
+                                    name="entityId"
+                                    pattern="[a-z0-9_]+"
+                                    value="mitsubishi_ac_living_room"
+                                    aria-describedby="entityIdHelp"
+                                    required>
+                                <small id="entityIdHelp">Unique identifier in Home Assistant (lowercase, numbers, underscore)</small>
+                            </div>
+
+                            <div>
+                                <label for="suggestedArea">Suggested Area</label>
+                                <input type="text" 
+                                    id="suggestedArea" 
+                                    name="suggestedArea"
+                                    value="Living Room"
+                                    aria-describedby="areaHelp"
+                                    required>
+                                <small id="areaHelp">Room or area where the device is located</small>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Operational Settings</legend>
+                        
+                        <div class="grid">
+                            <div>
+                                <label for="tempUnit">Temperature Unit</label>
+                                <select id="tempUnit" name="tempUnit" required>
+                                    <option value="F">Fahrenheit (°F)</option>
+                                    <option value="C">Celsius (°C)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="tempStep">Temperature Step</label>
+                                <select id="tempStep" name="tempStep" required>
+                                    <option value="1">1 degree</option>
+                                    <option value="0.5">0.5 degrees</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid">
+                            <div>
+                                <label for="minTemp">Minimum Temperature</label>
+                                <input type="number" 
+                                    id="minTemp" 
+                                    name="minTemp"
+                                    value="50"
+                                    min="32"
+                                    max="104"
+                                    step="1"
+                                    required>
+                            </div>
+
+                            <div>
+                                <label for="maxTemp">Maximum Temperature</label>
+                                <input type="number" 
+                                    id="maxTemp" 
+                                    name="maxTemp"
+                                    value="88"
+                                    min="32"
+                                    max="104"
+                                    step="1"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="grid">
+                            <div>
+                                <label for="operationModes">Operation Modes</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="modes" value="auto" checked> Auto</label>
+                                    <label><input type="checkbox" name="modes" value="cool" checked> Cool</label>
+                                    <label><input type="checkbox" name="modes" value="dry" checked> Dry</label>
+                                    <label><input type="checkbox" name="modes" value="heat" checked> Heat</label>
+                                    <label><input type="checkbox" name="modes" value="off" checked> Off</label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="fanModes">Fan Modes</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="fanModes" value="Auto" checked> Auto</label>
+                                    <label><input type="checkbox" name="fanModes" value="Min" checked> Min</label>
+                                    <label><input type="checkbox" name="fanModes" value="Low" checked> Low</label>
+                                    <label><input type="checkbox" name="fanModes" value="Medium" checked> Medium</label>
+                                    <label><input type="checkbox" name="fanModes" value="High" checked> High</label>
+                                    <label><input type="checkbox" name="fanModes" value="Max" checked> Max</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="swingModes">Swing Modes</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" name="swingModes" value="Auto" checked> Auto</label>
+                                <label><input type="checkbox" name="swingModes" value="Off" checked> Off</label>
+                                <label><input type="checkbox" name="swingModes" value="Highest" checked> Highest</label>
+                                <label><input type="checkbox" name="swingModes" value="High" checked> High</label>
+                                <label><input type="checkbox" name="swingModes" value="Middle" checked> Middle</label>
+                                <label><input type="checkbox" name="swingModes" value="Low" checked> Low</label>
+                                <label><input type="checkbox" name="swingModes" value="Lowest" checked> Lowest</label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="button-group">
+                        <button type="button" id="generateDiscoveryBtn" class="primary">Generate Discovery Payload</button>
+                        <button type="button" id="publishPayloadBtn" disabled>Publish Discovery Payload</button>
+                    </div>
+                </form>
+                
+                <div class="editor-container">
+                    <div id="discoveryEditor"></div>
+                    <button type="button" id="copyBtn" class="icon-button" aria-label="Copy to clipboard">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+            </section>
         </div>
-        
-        <div class="publish-section">
-            <h2>Publish Message</h2>
-            <label for="topic">Topic:</label>
-            <input type="text" id="topic" placeholder="e.g., home/sensor">
-            
-            <label for="message">Message:</label>
-            <input type="text" id="message" placeholder="Your message">
-            
-            <button id="publishBtn" disabled>Publish</button>
-        </div>
-        
-        <div class="subscribe-section">
-            <h2>Subscribe to Topic</h2>
-            <label for="subTopic">Topic:</label>
-            <input type="text" id="subTopic" placeholder="e.g., home/sensor">
-            
-            <button id="subscribeBtn" disabled>Subscribe</button>
-            <div id="messages"></div>
-        </div>
-    </div>
-    
-    <script src="script.js?v={{ site.time | date: '%Y%m%d%H%M%S' }}"></script>
-</body>
+        <script src="script.js?v={{ site.time | date: '%Y%m%d%H%M%S' }}"></script>
+    </body>
 </html>

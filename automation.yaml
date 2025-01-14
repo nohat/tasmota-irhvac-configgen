@@ -1,0 +1,21 @@
+alias: AC State Management - Update Retained State
+description: Listen for Tasmota IR messages and republish as retained state
+triggers:
+  - topic: tele/+/RESULT
+    trigger: mqtt
+conditions:
+  - condition: template
+    value_template: "{{ trigger.payload_json.IrReceived.IRHVAC is defined }}"
+actions:
+  - action: mqtt.publish
+    data:
+      topic: homeassistant/climate/{{ trigger.payload_json.IrReceived.IRHVAC.Vendor | lower | replace(' ', '_') }}_{{ trigger.topic | regex_replace('tele/(.+)/RESULT', '\\1') }}/state
+      payload: |-
+        {% set hvac = trigger.payload_json.IrReceived.IRHVAC %}
+        {
+        {% for key, value in hvac.items() %}"{{ key | lower }}": {% if value is none %}null{% elif value is string %}"{{ value }}"{% else %}{{ value }}{% endif %}{% if not loop.last %},{% endif %}
+        {% endfor %},
+        "last_updated": "{{ now().isoformat() }}"
+        }
+      retain: true
+      qos: 1
