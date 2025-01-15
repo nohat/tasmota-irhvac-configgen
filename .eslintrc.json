@@ -1,7 +1,7 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2022": true
   },
   "extends": "eslint:recommended",
   "parserOptions": {
@@ -14,7 +14,7 @@
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
     "no-unused-vars": "warn",
-    "no-console": ["warn", { "allow": ["warn", "error"] }]
+    "no-console": ["warn", { "allow": ["error", "warn"] }]
   },
   "globals": {
     "mqtt": "readonly"

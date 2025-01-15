@@ -1,25 +1,21 @@
 {
   "name": "tasmota-irhvac-configgen",
   "version": "1.0.0",
-  "description": "Generate MQTT configs for Home Assistant for IRHVAC components controlled by a Tasmota IR device",
-  "main": "index.js",
+  "description": "Tasmota IR HVAC Configuration Generator for Home Assistant",
+  "type": "module",
   "scripts": {
     "lint": "npm run lint:js && npm run lint:css && npm run lint:html",
-    "lint:js": "eslint src/js/**/*.js",
-    "lint:css": "stylelint src/css/**/*.css",
-    "lint:html": "htmlhint *.html",
-    "fix": "npm run fix:js && npm run fix:css",
-    "fix:js": "eslint src/js/**/*.js --fix",
-    "fix:css": "stylelint src/css/**/*.css --fix"
+    "lint:js": "eslint src/js/*.js",
+    "lint:css": "stylelint \"src/css/*.css\"",
+    "lint:html": "htmlhint \"*.html\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "eslint": "^8.56.0",
-    "htmlhint": "^1.x",
-    "prettier": "^3.x",
-    "stylelint": "^15.x",
-    "stylelint-config-standard": "^34.x"
+    "eslint": "^8.57.0",
+    "htmlhint": "^1.1.4",
+    "stylelint": "^16.2.1",
+    "stylelint-config-standard": "^36.0.0"
+  },
+  "dependencies": {
+    "mqtt": "^5.3.5"
   }
 }
