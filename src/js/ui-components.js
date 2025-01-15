@@ -13,10 +13,10 @@ async function loadAceEditor() {
 export async function initializeEditor() {
     try {
         await loadAceEditor();
-        const editor = ace.edit('discovery-editor');
-        editor.setTheme("ace/theme/monokai");
-        editor.session.setMode("ace/mode/json");
-        editor.setValue("{\n\t\"example\": \"This is a JSON example\"\n}", -1);
+        const editor = window.ace.edit('discovery-editor');
+        editor.setTheme('ace/theme/monokai');
+        editor.session.setMode('ace/mode/json');
+        editor.setValue('{\n\t"example": "This is a JSON example"\n}', -1);
         editor.setOptions({
             maxLines: Infinity,
             minLines: 10,

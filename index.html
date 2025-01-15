@@ -73,28 +73,19 @@
                 <form id="device-config-form" class="device-config-form">
                     <fieldset>
                         <legend>Device Information</legend>
-                        
+
                         <div class="grid">
                             <div>
                                 <label for="device-id">Tasmota Device ID</label>
-                                <input type="text" 
-                                    id="device-id" 
-                                    name="device-id"
-                                    pattern="[a-zA-Z0-9_-]+"
-                                    value="tasmota_D971D7"
-                                    aria-describedby="device-id-help"
-                                    required>
+                                <input type="text" id="device-id" name="device-id" pattern="[a-zA-Z0-9_-]+" 
+                                    value="tasmota_D971D7" aria-describedby="device-id-help" required>
                                 <small id="device-id-help">Tasmota device identifier (e.g., tasmota_D971D7)</small>
                             </div>
 
                             <div>
                                 <label for="irhvac-vendor">IRHVAC Vendor</label>
-                                <input type="text" 
-                                    id="irhvac-vendor" 
-                                    name="irhvac-vendor"
-                                    value="MITSUBISHI_AC"
-                                    aria-describedby="irhvac-vendor-help"
-                                    required>
+                                <input type="text" id="irhvac-vendor" name="irhvac-vendor" value="MITSUBISHI_AC" 
+                                    aria-describedby="irhvac-vendor-help" required>
                                 <small id="irhvac-vendor-help">Vendor name from Tasmota IRHVAC message (e.g., MITSUBISHI_AC)</small>
                             </div>
                         </div>
@@ -102,44 +93,27 @@
                         <div class="grid">
                             <div>
                                 <label for="manufacturer">Manufacturer</label>
-                                <input type="text" 
-                                    id="manufacturer" 
-                                    name="manufacturer"
-                                    value="Mitsubishi Electric"
-                                    required>
+                                <input type="text" id="manufacturer" name="manufacturer" value="Mitsubishi Electric" required>
                             </div>
 
                             <div>
                                 <label for="model">Model</label>
-                                <input type="text" 
-                                    id="model" 
-                                    name="model"
-                                    value="MSZ-GS12NA"
-                                    required>
+                                <input type="text" id="model" name="model" value="MSZ-GS12NA" required>
                             </div>
                         </div>
 
                         <div class="grid">
                             <div>
                                 <label for="serial-number">Serial Number</label>
-                                <input type="text" 
-                                    id="serial-number" 
-                                    name="serial-number"
-                                    pattern="[A-Z0-9]+"
-                                    value="D971D7"
-                                    aria-describedby="serial-help"
-                                    required>
+                                <input type="text" id="serial-number" name="serial-number" pattern="[A-Z0-9]+" 
+                                    value="D971D7" aria-describedby="serial-help" required>
                                 <small id="serial-help">Device serial number (uppercase letters and numbers only)</small>
                             </div>
 
                             <div>
                                 <label for="config-url">Configuration URL</label>
-                                <input type="url" 
-                                    id="config-url" 
-                                    name="config-url"
-                                    value="http://192.168.1.100/"
-                                    aria-describedby="url-help"
-                                    required>
+                                <input type="url" id="config-url" name="config-url" value="http://192.168.1.100/" 
+                                    aria-describedby="url-help" required>
                                 <small id="url-help">Web interface URL for the device</small>
                             </div>
                         </div>
@@ -147,28 +121,19 @@
 
                     <fieldset>
                         <legend>Home Assistant Configuration</legend>
-                        
+
                         <div class="grid">
                             <div>
                                 <label for="entity-id">Entity ID</label>
-                                <input type="text" 
-                                    id="entity-id" 
-                                    name="entity-id"
-                                    pattern="[a-z0-9_]+"
-                                    value="mitsubishi_ac_living_room"
-                                    aria-describedby="entity-id-help"
-                                    required>
+                                <input type="text" id="entity-id" name="entity-id" pattern="[a-z0-9_]+" 
+                                    value="mitsubishi_ac_living_room" aria-describedby="entity-id-help" required>
                                 <small id="entity-id-help">Unique identifier in Home Assistant (lowercase, numbers, underscore)</small>
                             </div>
 
                             <div>
                                 <label for="suggested-area">Suggested Area</label>
-                                <input type="text" 
-                                    id="suggested-area" 
-                                    name="suggested-area"
-                                    value="Living Room"
-                                    aria-describedby="area-help"
-                                    required>
+                                <input type="text" id="suggested-area" name="suggested-area" value="Living Room" 
+                                    aria-describedby="area-help" required>
                                 <small id="area-help">Room or area where the device is located</small>
                             </div>
                         </div>
@@ -176,7 +141,7 @@
 
                     <fieldset>
                         <legend>Operational Settings</legend>
-                        
+
                         <div class="grid">
                             <div>
                                 <label for="temp-unit">Temperature Unit</label>
@@ -198,26 +163,12 @@
                         <div class="grid">
                             <div>
                                 <label for="min-temp">Minimum Temperature</label>
-                                <input type="number" 
-                                    id="min-temp" 
-                                    name="min-temp"
-                                    value="50"
-                                    min="32"
-                                    max="104"
-                                    step="1"
-                                    required>
+                                <input type="number" id="min-temp" name="min-temp" value="50" min="32" max="104" step="1" required>
                             </div>
 
                             <div>
                                 <label for="max-temp">Maximum Temperature</label>
-                                <input type="number" 
-                                    id="max-temp" 
-                                    name="max-temp"
-                                    value="88"
-                                    min="32"
-                                    max="104"
-                                    step="1"
-                                    required>
+                                <input type="number" id="max-temp" name="max-temp" value="88" min="32" max="104" step="1" required>
                             </div>
                         </div>
 
@@ -264,16 +215,16 @@
                         <button type="button" id="publish-payload-btn" class="button-primary" disabled>Publish Discovery Payload</button>
                     </div>
 
-                    <div class="editor-container">
-                        <div id="discovery-editor"></div>
-                        <button type="button" id="copy-btn" class="icon-button" aria-label="Copy to clipboard" data-tooltip="Copy JSON">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                        </button>
-                    </div>
                 </form>
+                <div class="editor-container">
+                    <div id="discovery-editor"></div>
+                    <button type="button" id="copy-btn" class="icon-button" aria-label="Copy to clipboard" data-tooltip="Copy JSON">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
             </section>
         </div>
         <script src="src/js/script.js?v={{ site.time | date: '%Y%m%d%H%M%S' }}" type="module"></script>

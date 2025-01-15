@@ -164,15 +164,15 @@ export function initializeFormHandlers(editor, mqttClient) {
 
         // Update input constraints
         if (newUnit === 'C') {
-            minTemp.min = "0";
-            minTemp.max = "40";
-            maxTemp.min = "0";
-            maxTemp.max = "40";
+            minTemp.min = '0';
+            minTemp.max = '40';
+            maxTemp.min = '0';
+            maxTemp.max = '40';
         } else {
-            minTemp.min = "32";
-            minTemp.max = "104";
-            maxTemp.min = "32";
-            maxTemp.max = "104";
+            minTemp.min = '32';
+            minTemp.max = '104';
+            maxTemp.min = '32';
+            maxTemp.max = '104';
         }
 
         // Update the discovery payload with the new temperature values

@@ -51,10 +51,6 @@
     transition: opacity 0.2s;
 }
 
-.icon-button[data-tooltip] {
-    position: relative;
-}
-
 .icon-button[data-tooltip]::before {
     content: attr(data-tooltip);
     position: absolute;
