@@ -3,40 +3,40 @@ import { generateDiscoveryPayload } from './discovery-payload-generator.js?v={{ 
 function saveFormState() {
     const formData = {
         // Device Information
-        deviceId: document.getElementById('deviceId').value,
-        irhvacVendor: document.getElementById('irhvacVendor').value,
+        deviceId: document.getElementById('device-id').value,
+        irhvacVendor: document.getElementById('irhvac-vendor').value,
         manufacturer: document.getElementById('manufacturer').value,
         model: document.getElementById('model').value,
-        serialNumber: document.getElementById('serialNumber').value,
-        configUrl: document.getElementById('configUrl').value,
+        serialNumber: document.getElementById('serial-number').value,
+        configUrl: document.getElementById('config-url').value,
         
         // HA Configuration
-        entityId: document.getElementById('entityId').value,
-        suggestedArea: document.getElementById('suggestedArea').value,
+        entityId: document.getElementById('entity-id').value,
+        suggestedArea: document.getElementById('suggested-area').value,
         
         // Operational Settings
-        tempUnit: document.getElementById('tempUnit').value,
-        tempStep: document.getElementById('tempStep').value,
-        minTemp: document.getElementById('minTemp').value,
-        maxTemp: document.getElementById('maxTemp').value,
+        tempUnit: document.getElementById('temp-unit').value,
+        tempStep: document.getElementById('temp-step').value,
+        minTemp: document.getElementById('min-temp').value,
+        maxTemp: document.getElementById('max-temp').value,
         
         // Modes
         modes: Array.from(document.querySelectorAll('input[name="modes"]:checked')).map(input => input.value),
-        fanModes: Array.from(document.querySelectorAll('input[name="fanModes"]:checked')).map(input => input.value),
-        swingModes: Array.from(document.querySelectorAll('input[name="swingModes"]:checked')).map(input => input.value),
+        fanModes: Array.from(document.querySelectorAll('input[name="fan-modes"]:checked')).map(input => input.value),
+        swingModes: Array.from(document.querySelectorAll('input[name="swing-modes"]:checked')).map(input => input.value),
         
         // MQTT Settings
-        broker: document.getElementById('broker').value,
-        port: document.getElementById('port').value,
-        username: document.getElementById('username').value
+        broker: document.getElementById('broker-username').value,
+        port: document.getElementById('broker-port').value,
+        username: document.getElementById('broker-username').value
         // We don't save password for security reasons
     };
     
-    localStorage.setItem('formState', JSON.stringify(formData));
+    localStorage.setItem('form-state', JSON.stringify(formData));
 }
 
 function restoreFormState() {
-    const savedState = localStorage.getItem('formState');
+    const savedState = localStorage.getItem('form-state');
     if (!savedState) return;
     
     try {
@@ -50,7 +50,7 @@ function restoreFormState() {
         });
         
         // Restore checkboxes
-        ['modes', 'fanModes', 'swingModes'].forEach(modeType => {
+        ['modes', 'fan-modes', 'swing-modes'].forEach(modeType => {
             if (!formData[modeType]) return;
             document.querySelectorAll(`input[name="${modeType}"]`).forEach(checkbox => {
                 checkbox.checked = formData[modeType].includes(checkbox.value);
@@ -59,7 +59,7 @@ function restoreFormState() {
         
     } catch (err) {
         console.error('Failed to restore form state:', err);
-        localStorage.removeItem('formState'); // Clear invalid state
+        localStorage.removeItem('form-state'); // Clear invalid state
     }
 }
 
@@ -72,34 +72,34 @@ export function convertTemp(value, fromUnit, toUnit) {
 }
 
 export function initializeFormHandlers(editor, mqttClient) {
-    const connectBtn = document.getElementById('connectBtn');
-    const publishBtn = document.getElementById('publishBtn');
-    const subscribeBtn = document.getElementById('subscribeBtn');
-    const publishPayloadBtn = document.getElementById('publishPayloadBtn');
+    const connectBtn = document.getElementById('connect-btn');
+    const publishBtn = document.getElementById('publish-btn');
+    const subscribeBtn = document.getElementById('subscribe-btn');
+    const publishPayloadBtn = document.getElementById('publish-payload-btn');
     let currentDiscoveryPayload = null;
 
     function updateDiscoveryPayload() {
-        const entityId = document.getElementById('entityId').value.trim();
-        const tasmotaId = document.getElementById('deviceId').value.trim();
-        const irhvacVendor = document.getElementById('irhvacVendor').value.trim();
-        const configUrl = document.getElementById('configUrl').value.trim();
+        const entityId = document.getElementById('entity-id').value.trim();
+        const tasmotaId = document.getElementById('device-id').value.trim();
+        const irhvacVendor = document.getElementById('irhvac-vendor').value.trim();
+        const configUrl = document.getElementById('config-url').value.trim();
         const manufacturer = document.getElementById('manufacturer').value.trim();
         const model = document.getElementById('model').value.trim();
-        const suggestedArea = document.getElementById('suggestedArea').value.trim();
-        const serialNumber = document.getElementById('serialNumber').value.trim();
+        const suggestedArea = document.getElementById('suggested-area').value.trim();
+        const serialNumber = document.getElementById('serial-number').value.trim();
 
         // Get operational settings
-        const tempUnit = document.getElementById('tempUnit').value;
-        const tempStep = parseFloat(document.getElementById('tempStep').value);
-        const minTemp = parseInt(document.getElementById('minTemp').value);
-        const maxTemp = parseInt(document.getElementById('maxTemp').value);
+        const tempUnit = document.getElementById('temp-unit').value;
+        const tempStep = parseFloat(document.getElementById('temp-step').value);
+        const minTemp = parseInt(document.getElementById('min-temp').value);
+        const maxTemp = parseInt(document.getElementById('max-temp').value);
         
         // Get selected modes
         const modes = Array.from(document.querySelectorAll('input[name="modes"]:checked'))
             .map(input => input.value);
-        const fanModes = Array.from(document.querySelectorAll('input[name="fanModes"]:checked'))
+        const fanModes = Array.from(document.querySelectorAll('input[name="fan-modes"]:checked'))
             .map(input => input.value);
-        const swingModes = Array.from(document.querySelectorAll('input[name="swingModes"]:checked'))
+        const swingModes = Array.from(document.querySelectorAll('input[name="swing-modes"]:checked'))
             .map(input => input.value);
 
         try {
@@ -150,9 +150,9 @@ export function initializeFormHandlers(editor, mqttClient) {
     });
 
     // Temperature unit change handler
-    const tempUnit = document.getElementById('tempUnit');
-    const minTemp = document.getElementById('minTemp');
-    const maxTemp = document.getElementById('maxTemp');
+    const tempUnit = document.getElementById('temp-unit');
+    const minTemp = document.getElementById('min-temp');
+    const maxTemp = document.getElementById('max-temp');
 
     tempUnit.addEventListener('change', () => {
         const newUnit = tempUnit.value;
@@ -182,10 +182,10 @@ export function initializeFormHandlers(editor, mqttClient) {
     // MQTT Connection handler
     connectBtn.addEventListener('click', async () => {
         try {
-            const broker = document.getElementById('broker').value.trim();
-            const port = parseInt(document.getElementById('port').value);
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
+            const broker = document.getElementById('broker-host').value.trim();
+            const port = parseInt(document.getElementById('broker-port').value);
+            const username = document.getElementById('broker-username').value.trim();
+            const password = document.getElementById('broker-password').value.trim();
             await mqttClient.connect(broker, port, username, password);
             publishPayloadBtn.disabled = !mqttClient.isConnected();
         } catch (err) {
@@ -195,8 +195,8 @@ export function initializeFormHandlers(editor, mqttClient) {
 
     // Publish message handler
     publishBtn.addEventListener('click', async () => {
-        const topic = document.getElementById('topic').value.trim();
-        const message = document.getElementById('message').value.trim();
+        const topic = document.getElementById('publish-topic').value.trim();
+        const message = document.getElementById('publish-message').value.trim();
 
         if (!topic) {
             alert('Please enter a topic to publish to.');
@@ -213,7 +213,7 @@ export function initializeFormHandlers(editor, mqttClient) {
 
     // Subscribe handler
     subscribeBtn.addEventListener('click', async () => {
-        const subTopic = document.getElementById('subTopic').value.trim();
+        const subTopic = document.getElementById('subscribe-topic').value.trim();
 
         if (!subTopic) {
             alert('Please enter a topic to subscribe to.');
@@ -235,7 +235,7 @@ export function initializeFormHandlers(editor, mqttClient) {
             return;
         }
 
-        const entityId = document.getElementById('entityId').value.trim();
+        const entityId = document.getElementById('entity-id').value.trim();
         const discoveryTopic = `homeassistant/device/${entityId}/config`;
 
         try {

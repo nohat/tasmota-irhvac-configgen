@@ -1,6 +1,6 @@
-import { initializeEditor, initializeCopyButton } from './ui-components.js?v={{ site.time | date: "%Y%m%d%H%M%S" }}';
-import { MQTTClient } from './mqtt-client.js?v={{ site.time | date: "%Y%m%d%H%M%S" }}';
-import { initializeFormHandlers } from './form-handler.js?v={{ site.time | date: "%Y%m%d%H%M%S" }}';
+import { initializeEditor, initializeCopyButton } from './ui-components.js';
+import { MQTTClient } from './mqtt-client.js';
+import { initializeFormHandlers } from './form-handler.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {

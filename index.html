@@ -17,85 +17,85 @@
         <div class="container">
             <h1>MQTT Web Interface</h1>
 
-            <details>
+            <details class="collapsible">
                 <summary>MQTT Connection Settings</summary>
                 <section class="connection-section">
                     <h2>Connect to MQTT Broker</h2>
                     <div class="grid">
                         <div>
-                            <label for="broker">Broker Address</label>
-                            <input type="text" id="broker" value="homeassistant.local">
+                            <label for="broker-address">Broker Address</label>
+                            <input type="text" id="broker-address" class="text-input" value="homeassistant.local">
                         </div>
                         <div>
-                            <label for="port">Port</label>
-                            <input type="number" id="port" value="8883">
+                            <label for="broker-port">Port</label>
+                            <input type="number" id="broker-port" value="8883">
                         </div>
                     </div>
 
                     <div class="grid">
                         <div>
-                            <label for="username">Username</label>
-                            <input type="text" id="username" value="mqtt_user">
+                            <label for="broker-username">Username</label>
+                            <input type="text" id="broker-username" class="text-input" value="mqtt_user">
                         </div>
                         <div>
-                            <label for="password">Password</label>
-                            <input type="password" id="password" placeholder="MQTT Password">
+                            <label for="broker-password">Password</label>
+                            <input type="password" id="broker-password" placeholder="MQTT Password">
                         </div>
                     </div>
 
-                    <button id="connectBtn">Connect</button>
-                    <span id="status">Disconnected</span>
+                    <button id="connect-btn" class="button-primary">Connect</button>
+                    <span id="connection-status" class="connection-status">Disconnected</span>
                 </section>
 
                 <section class="publish-section">
                     <h2>Publish Message</h2>
-                    <label for="topic">Topic</label>
-                    <input type="text" id="topic" placeholder="e.g., home/sensor">
+                    <label for="publish-topic">Topic</label>
+                    <input type="text" id="publish-topic" class="text-input" placeholder="e.g., home/sensor">
 
-                    <label for="message">Message</label>
-                    <input type="text" id="message" placeholder="Your message">
+                    <label for="publish-message">Message</label>
+                    <input type="text" id="publish-message" class="text-input" placeholder="Your message">
 
-                    <button id="publishBtn" disabled>Publish</button>
+                    <button id="publish-btn" class="button-primary" disabled>Publish</button>
                 </section>
 
                 <section class="subscribe-section">
                     <h2>Subscribe to Topic</h2>
-                    <label for="subTopic">Topic</label>
-                    <input type="text" id="subTopic" placeholder="e.g., home/sensor">
+                    <label for="subscribe-topic">Topic</label>
+                    <input type="text" id="subscribe-topic" class="text-input" placeholder="e.g., home/sensor">
 
-                    <button id="subscribeBtn" disabled>Subscribe</button>
-                    <div id="messages" role="log" aria-live="polite"></div>
+                    <button id="subscribe-btn" class="button-primary" disabled>Subscribe</button>
+                    <div id="message-log" class="messages" role="log" aria-live="polite"></div>
                 </section>
             </details>
 
             <section class="discovery-section">
                 <h2>Home Assistant Discovery</h2>
-                <form id="deviceConfigForm">
+                <form id="device-config-form" class="device-config-form">
                     <fieldset>
                         <legend>Device Information</legend>
                         
                         <div class="grid">
                             <div>
-                                <label for="deviceId">Tasmota Device ID</label>
+                                <label for="device-id">Tasmota Device ID</label>
                                 <input type="text" 
-                                    id="deviceId" 
-                                    name="deviceId"
+                                    id="device-id" 
+                                    name="device-id"
                                     pattern="[a-zA-Z0-9_-]+"
                                     value="tasmota_D971D7"
-                                    aria-describedby="deviceIdHelp"
+                                    aria-describedby="device-id-help"
                                     required>
-                                <small id="deviceIdHelp">Tasmota device identifier (e.g., tasmota_D971D7)</small>
+                                <small id="device-id-help">Tasmota device identifier (e.g., tasmota_D971D7)</small>
                             </div>
 
                             <div>
-                                <label for="irhvacVendor">IRHVAC Vendor</label>
+                                <label for="irhvac-vendor">IRHVAC Vendor</label>
                                 <input type="text" 
-                                    id="irhvacVendor" 
-                                    name="irhvacVendor"
+                                    id="irhvac-vendor" 
+                                    name="irhvac-vendor"
                                     value="MITSUBISHI_AC"
-                                    aria-describedby="irhvacVendorHelp"
+                                    aria-describedby="irhvac-vendor-help"
                                     required>
-                                <small id="irhvacVendorHelp">Vendor name from Tasmota IRHVAC message (e.g., MITSUBISHI_AC)</small>
+                                <small id="irhvac-vendor-help">Vendor name from Tasmota IRHVAC message (e.g., MITSUBISHI_AC)</small>
                             </div>
                         </div>
 
@@ -121,26 +121,26 @@
 
                         <div class="grid">
                             <div>
-                                <label for="serialNumber">Serial Number</label>
+                                <label for="serial-number">Serial Number</label>
                                 <input type="text" 
-                                    id="serialNumber" 
-                                    name="serialNumber"
+                                    id="serial-number" 
+                                    name="serial-number"
                                     pattern="[A-Z0-9]+"
                                     value="D971D7"
-                                    aria-describedby="serialHelp"
+                                    aria-describedby="serial-help"
                                     required>
-                                <small id="serialHelp">Device serial number (uppercase letters and numbers only)</small>
+                                <small id="serial-help">Device serial number (uppercase letters and numbers only)</small>
                             </div>
 
                             <div>
-                                <label for="configUrl">Configuration URL</label>
+                                <label for="config-url">Configuration URL</label>
                                 <input type="url" 
-                                    id="configUrl" 
-                                    name="configUrl"
+                                    id="config-url" 
+                                    name="config-url"
                                     value="http://192.168.1.100/"
-                                    aria-describedby="urlHelp"
+                                    aria-describedby="url-help"
                                     required>
-                                <small id="urlHelp">Web interface URL for the device</small>
+                                <small id="url-help">Web interface URL for the device</small>
                             </div>
                         </div>
                     </fieldset>
@@ -150,26 +150,26 @@
                         
                         <div class="grid">
                             <div>
-                                <label for="entityId">Entity ID</label>
+                                <label for="entity-id">Entity ID</label>
                                 <input type="text" 
-                                    id="entityId" 
-                                    name="entityId"
+                                    id="entity-id" 
+                                    name="entity-id"
                                     pattern="[a-z0-9_]+"
                                     value="mitsubishi_ac_living_room"
-                                    aria-describedby="entityIdHelp"
+                                    aria-describedby="entity-id-help"
                                     required>
-                                <small id="entityIdHelp">Unique identifier in Home Assistant (lowercase, numbers, underscore)</small>
+                                <small id="entity-id-help">Unique identifier in Home Assistant (lowercase, numbers, underscore)</small>
                             </div>
 
                             <div>
-                                <label for="suggestedArea">Suggested Area</label>
+                                <label for="suggested-area">Suggested Area</label>
                                 <input type="text" 
-                                    id="suggestedArea" 
-                                    name="suggestedArea"
+                                    id="suggested-area" 
+                                    name="suggested-area"
                                     value="Living Room"
-                                    aria-describedby="areaHelp"
+                                    aria-describedby="area-help"
                                     required>
-                                <small id="areaHelp">Room or area where the device is located</small>
+                                <small id="area-help">Room or area where the device is located</small>
                             </div>
                         </div>
                     </fieldset>
@@ -179,16 +179,16 @@
                         
                         <div class="grid">
                             <div>
-                                <label for="tempUnit">Temperature Unit</label>
-                                <select id="tempUnit" name="tempUnit" required>
+                                <label for="temp-unit">Temperature Unit</label>
+                                <select id="temp-unit" name="temp-unit" required>
                                     <option value="F">Fahrenheit (°F)</option>
                                     <option value="C">Celsius (°C)</option>
                                 </select>
                             </div>
 
                             <div>
-                                <label for="tempStep">Temperature Step</label>
-                                <select id="tempStep" name="tempStep" required>
+                                <label for="temp-step">Temperature Step</label>
+                                <select id="temp-step" name="temp-step" required>
                                     <option value="1">1 degree</option>
                                     <option value="0.5">0.5 degrees</option>
                                 </select>
@@ -197,10 +197,10 @@
 
                         <div class="grid">
                             <div>
-                                <label for="minTemp">Minimum Temperature</label>
+                                <label for="min-temp">Minimum Temperature</label>
                                 <input type="number" 
-                                    id="minTemp" 
-                                    name="minTemp"
+                                    id="min-temp" 
+                                    name="min-temp"
                                     value="50"
                                     min="32"
                                     max="104"
@@ -209,10 +209,10 @@
                             </div>
 
                             <div>
-                                <label for="maxTemp">Maximum Temperature</label>
+                                <label for="max-temp">Maximum Temperature</label>
                                 <input type="number" 
-                                    id="maxTemp" 
-                                    name="maxTemp"
+                                    id="max-temp" 
+                                    name="max-temp"
                                     value="88"
                                     min="32"
                                     max="104"
@@ -223,8 +223,8 @@
 
                         <div class="grid">
                             <div>
-                                <label for="operationModes">Operation Modes</label>
-                                <div class="checkbox-group">
+                                <label for="operation-modes">Operation Modes</label>
+                                <div id="operation-modes" class="checkbox-group">
                                     <label><input type="checkbox" name="modes" value="auto" checked> Auto</label>
                                     <label><input type="checkbox" name="modes" value="cool" checked> Cool</label>
                                     <label><input type="checkbox" name="modes" value="dry" checked> Dry</label>
@@ -234,35 +234,35 @@
                             </div>
 
                             <div>
-                                <label for="fanModes">Fan Modes</label>
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" name="fanModes" value="Auto" checked> Auto</label>
-                                    <label><input type="checkbox" name="fanModes" value="Min" checked> Min</label>
-                                    <label><input type="checkbox" name="fanModes" value="Low" checked> Low</label>
-                                    <label><input type="checkbox" name="fanModes" value="Medium" checked> Medium</label>
-                                    <label><input type="checkbox" name="fanModes" value="High" checked> High</label>
-                                    <label><input type="checkbox" name="fanModes" value="Max" checked> Max</label>
+                                <label for="fan-modes">Fan Modes</label>
+                                <div id="fan-modes" class="checkbox-group">
+                                    <label><input type="checkbox" name="fan-modes" value="Auto" checked> Auto</label>
+                                    <label><input type="checkbox" name="fan-modes" value="Min" checked> Min</label>
+                                    <label><input type="checkbox" name="fan-modes" value="Low" checked> Low</label>
+                                    <label><input type="checkbox" name="fan-modes" value="Medium" checked> Medium</label>
+                                    <label><input type="checkbox" name="fan-modes" value="High" checked> High</label>
+                                    <label><input type="checkbox" name="fan-modes" value="Max" checked> Max</label>
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <label for="swingModes">Swing Modes</label>
-                            <div class="checkbox-group">
-                                <label><input type="checkbox" name="swingModes" value="Auto" checked> Auto</label>
-                                <label><input type="checkbox" name="swingModes" value="Off" checked> Off</label>
-                                <label><input type="checkbox" name="swingModes" value="Highest" checked> Highest</label>
-                                <label><input type="checkbox" name="swingModes" value="High" checked> High</label>
-                                <label><input type="checkbox" name="swingModes" value="Middle" checked> Middle</label>
-                                <label><input type="checkbox" name="swingModes" value="Low" checked> Low</label>
-                                <label><input type="checkbox" name="swingModes" value="Lowest" checked> Lowest</label>
+                            <label for="swing-modes">Swing Modes</label>
+                            <div id="swing-modes" class="checkbox-group">
+                                <label><input type="checkbox" name="swing-modes" value="Auto" checked> Auto</label>
+                                <label><input type="checkbox" name="swing-modes" value="Off" checked> Off</label>
+                                <label><input type="checkbox" name="swing-modes" value="Highest" checked> Highest</label>
+                                <label><input type="checkbox" name="swing-modes" value="High" checked> High</label>
+                                <label><input type="checkbox" name="swing-modes" value="Middle" checked> Middle</label>
+                                <label><input type="checkbox" name="swing-modes" value="Low" checked> Low</label>
+                                <label><input type="checkbox" name="swing-modes" value="Lowest" checked> Lowest</label>
                             </div>
                         </div>
                     </fieldset>
 
                     <div class="button-group">
-                        <button type="button" id="publishPayloadBtn" disabled>Publish Discovery Payload</button>
-                        <button type="button" id="copyBtn">
+                        <button type="button" id="publish-payload-btn" class="button-primary" disabled>Publish Discovery Payload</button>
+                        <button type="button" id="copy-btn" class="icon-button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -272,7 +272,7 @@
                     </div>
                 </form>
 
-                <div id="discoveryEditor"></div>
+                <div id="discovery-editor" class="discovery-editor"></div>
             </section>
         </div>
         <script src="src/js/script.js?v={{ site.time | date: '%Y%m%d%H%M%S' }}" type="module"></script>

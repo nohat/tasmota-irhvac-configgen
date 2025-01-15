@@ -13,7 +13,7 @@ async function loadAceEditor() {
 export async function initializeEditor() {
     try {
         await loadAceEditor();
-        const editor = ace.edit("discoveryEditor");
+        const editor = ace.edit("discovery-editor");
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/json");
         editor.setValue("{\n\t\"example\": \"This is a JSON example\"\n}", -1);
@@ -31,7 +31,7 @@ export async function initializeEditor() {
 }
 
 export function initializeCopyButton(editor) {
-    const copyBtn = document.getElementById('copyBtn');
+    const copyBtn = document.getElementById('copy-btn');
     copyBtn.addEventListener('click', async () => {
         const content = editor.getValue();
         try {
